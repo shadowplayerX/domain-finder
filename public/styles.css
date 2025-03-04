@@ -1,0 +1,249 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', 'Open Sans', Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding-top: 60px;
+    background-color: #f5f7fa;
+    color: #2b2b2b;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.logo {
+    margin-bottom: 30px;
+}
+
+.logo h1 {
+    color: #00838c;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.logo p {
+    color: #666;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.search-container {
+    margin-bottom: 40px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+#domain-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#keywords {
+    width: 100%;
+    padding: 15px 20px;
+    margin: 8px 0 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#keywords:focus {
+    border-color: #00838c;
+    box-shadow: 0 0 0 2px rgba(0, 131, 140, 0.2);
+}
+
+button[type="submit"] {
+    background-color: #00838c;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 5px 0;
+    padding: 14px 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+}
+
+button[type="submit"]:hover {
+    background-color: #006d75;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.results-container {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.results-container h2 {
+    color: #2b2b2b;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.domain-result {
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: white;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.domain-result:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+}
+
+.domain-result h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.domain-result h3 a {
+    color: #00838c;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.domain-result h3 a:hover {
+    text-decoration: underline;
+}
+
+.domain-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.domain-result p {
+    color: #666;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.available {
+    color: #00a878;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+}
+
+.available::before {
+    content: "✓";
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2b2b2b;
+}
+
+.purchase-button {
+    display: inline-block;
+    background-color: #00a878;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    text-align: center;
+    align-self: flex-start;
+}
+
+.purchase-button:hover {
+    background-color: #008c64;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Pagination styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+    padding: 10px;
+}
+
+.pagination-button {
+    background-color: #00838c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.pagination-button:hover {
+    background-color: #006d75;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.page-info {
+    margin: 0 15px;
+    color: #666;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* Loading indicator */
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-size: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .domain-result {
+        padding: 15px;
+    }
+    
+    .domain-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .purchase-button {
+        align-self: stretch;
+    }
+} 
