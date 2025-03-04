@@ -72,8 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (!domains || domains.length === 0) {
             resultsContainer.innerHTML = `
-                <h2>No Domains Found</h2>
-                <p>${message || "We couldn't find any domains matching your criteria. Please try different keywords."}</p>
+                <div class="error-message">
+                    <h2>No Domains Found</h2>
+                    <p>${message || "We couldn't find any domains matching your criteria. Please try different keywords."}</p>
+                </div>
             `;
             return;
         }
@@ -162,4 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+    
+    // Focus on the search input when the page loads
+    keywordsInput.focus();
 }); 
