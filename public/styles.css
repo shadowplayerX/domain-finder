@@ -246,4 +246,13 @@ button[type="submit"]:hover {
     .purchase-button {
         align-self: stretch;
     }
+}
+
+.availability-note {
+    background-color: #f8f9fa;
+    border-left: 4px solid #00838c;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #666;
 } 

@@ -1,1 +1,9 @@
- 
+services:
+  - type: web
+    name: domain-finder
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: WHOISFREAKS_API_KEY
+        value: a0fc35b8574346fba5aa2fca8ac375c2 

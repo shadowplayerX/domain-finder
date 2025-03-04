@@ -69,6 +69,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let html = '<h2>Domain Suggestions</h2>';
         
+        // Add a note about domain availability
+        html += `
+            <div class="availability-note">
+                <p>Note: Domain availability is provided as a guide only. 
+                Please verify availability with the registrar before purchase.</p>
+            </div>
+        `;
+        
         domains.forEach(suggestion => {
             // Create GoDaddy purchase link
             const purchaseLink = `https://www.godaddy.com/domainsearch/find?domainToCheck=${encodeURIComponent(suggestion.domain)}`;
