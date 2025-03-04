@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const axios = require('axios');
+const fetch = require('node-fetch');
 const app = express();
 
 // WhoisFreaks API key
@@ -50,11 +50,13 @@ app.post('/api/domain-suggestions', async (req, res) => {
     console.log('Received request with keywords:', req.body.keywords);
     
     try {
-        const { keywords, page = 1 } = req.body;
+        const { keywords, page = 1, apiProvider = 'demo' } = req.body;
         const pageSize = 20;
         
-        // In demo mode, skip all API calls and just use fallback domains
-        if (DEMO_MODE) {
+        console.log(`Using API provider: ${apiProvider}`);
+        
+        // Use demo mode by default or if explicitly selected
+        if (apiProvider === 'demo' || DEMO_MODE) {
             console.log("Running in demo mode - using simulated data only");
             const fallbackDomains = generateFallbackDomains(keywords);
             
@@ -77,7 +79,7 @@ app.post('/api/domain-suggestions', async (req, res) => {
                     totalPages: totalPages,
                     totalDomains: totalDomains
                 },
-                demoMode: true
+                apiProvider: 'demo'
             });
             return;
         }
@@ -94,17 +96,25 @@ app.post('/api/domain-suggestions', async (req, res) => {
         // Always generate fallback domains
         const fallbackDomains = generateFallbackDomains(keywords);
         
-        // Try to get real availability data only if API is enabled
+        // Try to get real availability data based on selected API provider
         let availableDomains = [];
         
-        if (USE_REAL_API && apiCallsRemaining > 0) {
+        if (apiProvider === 'whoisfreaks' && USE_REAL_API && apiCallsRemaining > 0) {
             try {
                 availableDomains = await checkDomainsWithWhoisFreaks(comDomains);
-                console.log(`Got ${availableDomains.length} available domains from API`);
+                console.log(`Got ${availableDomains.length} available domains from WhoisFreaks API`);
             } catch (apiError) {
-                console.error('API error:', apiError);
+                console.error('WhoisFreaks API error:', apiError);
                 console.log('Using fallback domains due to API error');
             }
+        } else if (apiProvider === 'godaddy') {
+            // Simulate GoDaddy API for now
+            console.log('Using simulated GoDaddy API data');
+            availableDomains = comDomains.slice(0, 10).map(domain => ({
+                domain: domain,
+                available: true,
+                price: 11.99 + Math.floor(Math.random() * 8)
+            }));
         } else {
             console.log("API disabled or call limit reached. Using fallback domains only.");
         }
@@ -146,7 +156,8 @@ app.post('/api/domain-suggestions', async (req, res) => {
                 currentPage: page,
                 totalPages: totalPages,
                 totalDomains: totalDomains
-            }
+            },
+            apiProvider: apiProvider
         });
     } catch (error) {
         console.error('Server error:', error);
@@ -161,7 +172,8 @@ app.post('/api/domain-suggestions', async (req, res) => {
                 totalPages: 1,
                 totalDomains: fallbackDomains.length
             },
-            message: "Using suggested domains due to server limitations."
+            message: "Using suggested domains due to server limitations.",
+            apiProvider: 'demo'
         });
     }
 });
@@ -229,9 +241,8 @@ async function checkDomainsWithWhoisFreaks(domains) {
             console.log(`Checking availability for: ${domain}`);
             apiCallsRemaining--;
             
-            const response = await axios.get(`https://api.whoisfreaks.com/v1.0/domain/availability?apiKey=${whoisfreaksApiKey}&domain=${domain}`);
-            
-            const data = response.data;
+            const response = await fetch(`https://api.whoisfreaks.com/v1.0/domain/availability?apiKey=${whoisfreaksApiKey}&domain=${domain}`);
+            const data = await response.json();
             console.log(`Availability for ${domain}: ${JSON.stringify(data)}`);
             
             // Check for different API response formats

@@ -1,1 +1,21 @@
- 
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <style>
+    @keyframes pulse {
+      0% { font-size: 20px; fill: #00838c; }
+      50% { font-size: 22px; fill: #00a878; }
+      100% { font-size: 20px; fill: #00838c; }
+    }
+    .letter {
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      animation: pulse 2s infinite;
+    }
+    .m { animation-delay: 0s; }
+    .d { animation-delay: 0.5s; }
+    .f { animation-delay: 1s; }
+  </style>
+  <rect width="32" height="32" rx="6" fill="#f0f0f0"/>
+  <text x="5" y="22" class="letter m">M</text>
+  <text x="16" y="22" class="letter d">D</text>
+  <text x="24" y="22" class="letter f">F</text>
+</svg> 

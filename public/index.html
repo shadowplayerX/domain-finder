@@ -3,26 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domain Finder - Find Your Perfect Domain Name</title>
+    <title>Master Domain Finder</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <!-- Add SVG favicon -->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <!-- Fallback favicon for browsers that don't support SVG -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>" type="image/svg+xml">
+    <!-- Emoji favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>" type="image/svg+xml">
 </head>
 <body>
     <div class="container">
-        <div class="logo">
-            <h1>Domain Finder</h1>
+        <header>
+            <h1>Master Domain Finder</h1>
             <p>Find the perfect domain name for your next project</p>
-        </div>
+        </header>
         
         <div class="search-container">
-            <form id="domain-form">
-                <label for="keywords">Enter keywords or a description of your website:</label>
-                <input type="text" id="keywords" placeholder="e.g., tech blog, fitness app, online store" autocomplete="off">
-                <button type="submit">Find Domains</button>
-            </form>
+            <input type="text" id="keywords" placeholder="Enter keywords (e.g., kiber sucks)" autocomplete="off">
+            <button id="search-button">Find Domains</button>
         </div>
         
-        <div id="results" class="results-container"></div>
+        <!-- API Provider Switcher -->
+        <div class="api-switcher">
+            <p>Choose API Provider:</p>
+            <div class="switcher-options">
+                <label class="switch-option">
+                    <input type="radio" name="api-provider" value="demo" checked>
+                    <span>Demo Mode</span>
+                </label>
+                <label class="switch-option">
+                    <input type="radio" name="api-provider" value="godaddy">
+                    <span>GoDaddy</span>
+                </label>
+                <label class="switch-option">
+                    <input type="radio" name="api-provider" value="whoisfreaks">
+                    <span>WhoisFreaks</span>
+                </label>
+            </div>
+        </div>
+        
+        <div id="loading" class="loading" style="display: none;">
+            Searching for domains...
+        </div>
+        
+        <div id="results-container"></div>
     </div>
     
     <script src="app.js"></script>

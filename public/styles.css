@@ -255,4 +255,61 @@ button[type="submit"]:hover {
     margin-bottom: 20px;
     font-size: 14px;
     color: #666;
+}
+
+/* API Switcher Styles */
+.api-switcher {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.api-switcher p {
+    margin: 0 0 10px 0;
+    font-weight: 500;
+    color: #444;
+}
+
+.switcher-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.switch-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px 15px;
+    background-color: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.switch-option:hover {
+    border-color: #00838c;
+}
+
+.switch-option input {
+    margin-right: 8px;
+}
+
+.switch-option input:checked + span {
+    font-weight: 600;
+    color: #00838c;
+}
+
+.switch-option:has(input:checked) {
+    border-color: #00838c;
+    background-color: #f0f8ff;
+}
+
+@media (max-width: 600px) {
+    .switcher-options {
+        flex-direction: column;
+        gap: 10px;
+    }
 } 

@@ -1,4 +1,4 @@
-# Domain Finder
+# Master Domain Finder
 
 A web application that helps users find available domain names based on keywords.
 

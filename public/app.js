@@ -1,63 +1,74 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('domain-form');
-    const resultsContainer = document.getElementById('results');
-    let currentKeywords = '';
-    let currentPage = 1;
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const keywords = document.getElementById('keywords').value.trim();
-        
-        if (!keywords) {
-            alert('Please enter some keywords or a description');
+    const searchButton = document.getElementById('search-button');
+    const keywordsInput = document.getElementById('keywords');
+    const resultsContainer = document.getElementById('results-container');
+    const loadingIndicator = document.getElementById('loading');
+    const apiProviderOptions = document.getElementsByName('api-provider');
+    
+    // Function to get the selected API provider
+    function getSelectedApiProvider() {
+        for (const option of apiProviderOptions) {
+            if (option.checked) {
+                return option.value;
+            }
+        }
+        return 'demo'; // Default to demo mode
+    }
+    
+    // Search function
+    async function searchDomains(keywords, page = 1) {
+        if (!keywords.trim()) {
+            alert('Please enter keywords to search for domains');
             return;
         }
         
-        currentKeywords = keywords;
-        currentPage = 1;
-        
-        resultsContainer.innerHTML = '<p class="loading">Searching for domains...</p>';
+        // Show loading indicator
+        loadingIndicator.style.display = 'block';
+        resultsContainer.innerHTML = '';
         
         try {
-            const domainData = await generateDomainIdeas(keywords, currentPage);
-            displayResults(domainData);
-        } catch (error) {
-            console.error('Error:', error);
-            resultsContainer.innerHTML = `
-                <h2>Error</h2>
-                <p>Sorry, we couldn't search for domains at this time. Please try again later.</p>
-            `;
-        }
-    });
-
-    async function generateDomainIdeas(keywords, page = 1) {
-        try {
-            console.log(`Sending request to domain suggestions endpoint with keywords: ${keywords}, page: ${page}`);
+            const apiProvider = getSelectedApiProvider();
+            console.log(`Searching with API provider: ${apiProvider}`);
             
             const response = await fetch('/api/domain-suggestions', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ keywords, page })
+                body: JSON.stringify({ 
+                    keywords, 
+                    page,
+                    apiProvider // Send the selected API provider to the server
+                })
             });
             
             if (!response.ok) {
-                throw new Error('API endpoint error');
+                throw new Error(`Server error: ${response.status}`);
             }
             
             const data = await response.json();
-            console.log('Received response from API:', data);
-            return data;
+            
+            // Hide loading indicator
+            loadingIndicator.style.display = 'none';
+            
+            // Display results
+            displayResults(data);
         } catch (error) {
-            console.error('API Error:', error);
-            throw new Error('Failed to fetch domain suggestions');
+            console.error('Error searching domains:', error);
+            loadingIndicator.style.display = 'none';
+            resultsContainer.innerHTML = `
+                <div class="error-message">
+                    <h2>Error</h2>
+                    <p>Sorry, we encountered an error while searching for domains. Please try again later.</p>
+                    <p class="error-details">${error.message}</p>
+                </div>
+            `;
         }
     }
-
+    
+    // Display results function
     function displayResults(domainData) {
-        const { domains, pagination, message } = domainData;
+        const { domains, pagination, message, apiProvider } = domainData;
         
         if (!domains || domains.length === 0) {
             resultsContainer.innerHTML = `
@@ -69,11 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let html = '<h2>Domain Suggestions</h2>';
         
-        // Add a note about domain availability
+        // Add a note about domain availability and the API provider being used
         html += `
             <div class="availability-note">
                 <p>Note: Domain availability is provided as a guide only. 
                 Please verify availability with the registrar before purchase.</p>
+                <p class="api-provider-info">API Provider: <strong>${apiProvider || getSelectedApiProvider()}</strong></p>
             </div>
         `;
         
@@ -119,24 +131,35 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Add event listeners to pagination buttons
         document.querySelectorAll('.pagination-button').forEach(button => {
-            button.addEventListener('click', async () => {
-                currentPage = parseInt(button.getAttribute('data-page'));
-                resultsContainer.innerHTML = '<p class="loading">Loading more domains...</p>';
-                
-                try {
-                    const domainData = await generateDomainIdeas(currentKeywords, currentPage);
-                    displayResults(domainData);
-                } catch (error) {
-                    console.error('Error:', error);
-                    resultsContainer.innerHTML = `
-                        <h2>Error</h2>
-                        <p>Sorry, we couldn't load more domains at this time. Please try again later.</p>
-                    `;
-                }
-                
+            button.addEventListener('click', () => {
+                const page = parseInt(button.getAttribute('data-page'));
+                searchDomains(keywordsInput.value, page);
                 // Scroll back to top of results
                 resultsContainer.scrollIntoView({ behavior: 'smooth' });
             });
         });
     }
+    
+    // Event listener for search button
+    searchButton.addEventListener('click', () => {
+        searchDomains(keywordsInput.value);
+    });
+    
+    // Event listener for Enter key in input field
+    keywordsInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            searchDomains(keywordsInput.value);
+        }
+    });
+    
+    // Event listeners for API provider options
+    apiProviderOptions.forEach(option => {
+        option.addEventListener('change', () => {
+            console.log(`API provider changed to: ${option.value}`);
+            // If there are already results displayed, re-run the search with the new provider
+            if (resultsContainer.innerHTML.includes('domain-result')) {
+                searchDomains(keywordsInput.value);
+            }
+        });
+    });
 }); 

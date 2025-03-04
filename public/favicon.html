@@ -1,1 +1,41 @@
- 
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      width: 32px;
+      height: 32px;
+      overflow: hidden;
+    }
+    .container {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 6px;
+      background-color: #f0f0f0;
+    }
+    .letter {
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      font-size: 16px;
+      color: #00838c;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); color: #00838c; }
+      50% { transform: scale(1.2); color: #00a878; }
+      100% { transform: scale(1); color: #00838c; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="letter">M</div>
+  </div>
+</body>
+</html> 

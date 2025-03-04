@@ -1,7 +1,7 @@
 {
-  "name": "domain-finder",
+  "name": "master-domain-finder",
   "version": "1.0.0",
-  "description": "A domain name finder application",
+  "description": "A master domain name finder application",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
