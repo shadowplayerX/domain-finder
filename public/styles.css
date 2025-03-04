@@ -10,6 +10,17 @@
     --font-family: 'Roboto', Arial, sans-serif;
 }
 
+/* Dark theme */
+[data-theme="dark"] {
+    --primary-color: #8ab4f8; /* Lighter blue for dark mode */
+    --secondary-color: #e8eaed; /* Light gray for text in dark mode */
+    --accent-color: #81c995; /* Lighter green for dark mode */
+    --background-color: #202124; /* Dark background */
+    --card-background: #303134; /* Dark card background */
+    --border-color: #5f6368; /* Darker border for dark mode */
+    --shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -335,4 +346,84 @@ footer {
 
 footer p {
     margin-bottom: 8px;
+}
+
+/* Theme switch styles */
+.theme-switch-wrapper {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+}
+
+.theme-switch input {
+    display: none;
+}
+
+.slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    background-color: white;
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 26px;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider .sun-icon,
+.slider .moon-icon {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 9px;
+    transition: opacity 0.3s ease;
+}
+
+.slider .sun-icon {
+    left: 8px;
+    opacity: 1;
+    color: #f39c12;
+}
+
+.slider .moon-icon {
+    right: 8px;
+    opacity: 0;
+    color: #f1c40f;
+}
+
+input:checked + .slider .sun-icon {
+    opacity: 0;
+}
+
+input:checked + .slider .moon-icon {
+    opacity: 1;
 } 
